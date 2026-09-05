@@ -1,0 +1,14 @@
+table {
+  width: 100%;
+  border-collapse: collapse; /* Merges double borders into a clean single line */
+}
+
+th, td {
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+  font-weight: 600;
+}
