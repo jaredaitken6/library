@@ -20,21 +20,33 @@ function addBookToLibrary(title, author, pages, genre, finished) {
 }
 
 function displayBooks(numberOfBooks) {
-    for (const book of numberOfBooks) {
-        const tr = document.createElement('tr');
-        const tdTitle = document.createElement('td');
-        tdTitle.textContent = book.title;
-        const tdAuthor = document.createElement('td');
-        tdAuthor.textContent = book.author;
-        const tdPages = document.createElement('td');
-        tdPages.textContent = book.pages;
-        const tdGenre = document.createElement('td');
-        tdGenre.textContent = book.genre;
-        const tdRead = document.createElement('td');
-        tdRead.textContent = book.finished;
-        tr.append(tdTitle, tdAuthor, tdPages, tdGenre, tdRead);
-        tbody.appendChild(tr);
-    }
+  let tr;
+  for (const book of numberOfBooks) {
+      tr = document.createElement('tr');
+      const tdTitle = document.createElement('td');
+      tdTitle.textContent = book.title;
+      const tdAuthor = document.createElement('td');
+      tdAuthor.textContent = book.author;
+      const tdPages = document.createElement('td');
+      tdPages.textContent = book.pages;
+      const tdGenre = document.createElement('td');
+      tdGenre.textContent = book.genre;
+      const tdRead = document.createElement('td');
+      tdRead.textContent = book.finished;
+      const deleteBtnCell = document.createElement('td');
+      const deleteBtn = document.createElement('button');
+      deleteBtn.type = 'button';
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.dataset.bookId = book.id;
+      deleteBtnCell.appendChild(deleteBtn);
+      tr.append(tdTitle, tdAuthor, tdPages, tdGenre, tdRead, deleteBtnCell);
+      
+
+      tr.dataset.bookId = book.id; 
+      
+  }
+  tbody.appendChild(tr);
+  console.log(numberOfBooks);
 }
 
 // Modal
@@ -50,17 +62,30 @@ closeBtn.addEventListener("click", () => {
   modal.close(); 
 });
 
+// book form
+const bookForm = document.querySelector('#book-form');
+const bookFormTitle = document.querySelector('#book-title');
+const bookFormAuthor = document.querySelector('#book-author');
+const bookFormPageNumber = document.querySelector('#page-number');
+const bookFormGenre = document.querySelector('#book-genre');
+const bookFormRead = document.querySelector('#book-read');
+let hasRead;
 
-addBookToLibrary("The Hobbit", "J.R.R. Tolken", "312", "fantasy", "yes");
+bookForm.addEventListener('submit', function(event) {
+// Stop the form from submitting and reloading the page
+    event.preventDefault();
 
-addBookToLibrary("Dune", "Frank Herbert", "412", "sci-fi", "yes");
+    if (bookFormRead.checked) {
+      hasRead = "Read";
+    } else {
+      hasRead = "Not Read";
+    }
 
-addBookToLibrary("1984", "George Orwell", "328", "dystopian", "no");
+    console.log(bookFormTitle.value, bookFormAuthor.value, bookFormPageNumber.value, bookFormGenre.value, hasRead);
 
-addBookToLibrary("Dracula", "Bram Stoker", "418", "horror", "yes");
+    addBookToLibrary(bookFormTitle.value, bookFormAuthor.value, bookFormPageNumber.value, bookFormGenre.value, hasRead);
 
-addBookToLibrary("The Way of Kings", "Brandon Sanderson", "1007", "fantasy", "no");
+    displayBooks(myLibrary);
+    
+});
 
-displayBooks(myLibrary);
-
-// console.log(myLibrary);

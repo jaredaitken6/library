@@ -8,13 +8,40 @@
     <script src="./script.js" defer></script>
 </head>
 <body>
-<button id="openModalBtn">Open Modal</button>
+<button type="button" id="openModalBtn">Add New Book</button>
 
 <dialog id="myModal">
-  <h2>Modal Header</h2>
-  <p>This is a natively supported modal window!</p>
-  <button id="closeModalBtn">Close</button>
+
+  <form id="book-form">
+    <!-- Text Input -->
+    <div>
+      <label for="book-title">Title:</label>
+      <input type="text" id="book-title" name="username" placeholder="Harry Potter" required>
+    </div>
+    <div>
+      <label for="book-author">Author:</label>
+      <input type="text" id="book-author" name="author" placeholder="J.K. Rowling" required>
+    </div>
+    <div>
+      <label for="page-number">Pages:</label>
+      <input type="tel" pattern="[0-9]*" id="page-number" name="page-number" placeholder="Numbers Only" required>
+    </div>
+    <div>
+      <label for="book-genre">Genre:</label>
+      <input type="text" id="book-genre" name="genre" placeholder="Fantasy"  required>
+    </div>
+
+    <div>
+      <input type="checkbox" id="book-read" name="read" value="read" checked>
+      <label for="book-read">Read</label>
+    </div>
+
+    <button type="submit">Submit Form</button>
+    <button type="button" id="closeModalBtn">Close</button>
+  </form>
+
 </dialog>
+
 <table>
   <thead>
     <tr>
@@ -23,6 +50,7 @@
       <th>Pages</th>
       <th>Genre</th>
       <th>Read</th>
+      <th>Delete</th>
     </tr>
   </thead>
   <tbody>
