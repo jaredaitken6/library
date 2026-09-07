@@ -22,6 +22,7 @@ function addBookToLibrary(title, author, pages, genre, finished) {
 
 function displayBooks(numberOfBooks) {
   let tr;
+  // console.log(myLibrary[0]);  
   for (const book of numberOfBooks) {
       tr = document.createElement('tr');
       const tdTitle = document.createElement('td');
@@ -33,13 +34,21 @@ function displayBooks(numberOfBooks) {
       const tdGenre = document.createElement('td');
       tdGenre.textContent = book.genre;
       const tdRead = document.createElement('td');
-      tdRead.textContent = book.finished;
+      const tdReadSpan = document.createElement('span');
+      tdReadSpan.textContent = book.finished;
+      tdRead.appendChild(tdReadSpan);
+      const changeReadBtn = document.createElement('button');
+      changeReadBtn.type = 'button';
+      changeReadBtn.textContent = 'Change';
+      tdRead.appendChild(changeReadBtn);
       const deleteBtnCell = document.createElement('td');
       const deleteBtn = document.createElement('button');
       deleteBtn.type = 'button';
       deleteBtn.textContent = 'Delete';
       deleteBtn.dataset.bookId = book.id;
       deleteBtnCell.appendChild(deleteBtn);
+
+
       tr.append(tdTitle, tdAuthor, tdPages, tdGenre, tdRead, deleteBtnCell);
       
 
@@ -49,6 +58,7 @@ function displayBooks(numberOfBooks) {
   tbody.appendChild(tr);
   rows = document.querySelectorAll('tbody > tr');
   deleteRowBtn();
+  changeReadStatus()
 }
 
 // Modal
@@ -74,7 +84,6 @@ const bookFormRead = document.querySelector('#book-read');
 let hasRead;
 
 bookForm.addEventListener('submit', function(event) {
-// Stop the form from submitting and reloading the page
     event.preventDefault();
 
     if (bookFormRead.checked) {
@@ -83,46 +92,54 @@ bookForm.addEventListener('submit', function(event) {
       hasRead = "Not Read";
     }
 
-    // console.log(bookFormTitle.value, bookFormAuthor.value, bookFormPageNumber.value, bookFormGenre.value, hasRead);
-
     addBookToLibrary(bookFormTitle.value, bookFormAuthor.value, bookFormPageNumber.value, bookFormGenre.value, hasRead);
 
-    displayBooks(myLibrary);
+    displayBooks(myLibrary);  
     
 });
 
-
-// loop through the table rows data book id
-// compare tr data-book-id with the delete buttons data-book-id
-
+// delete buttons for each row
 function deleteRowBtn() {
-rows.forEach((row) => {
-  // Access individual cells inside this row
-  // const title = row.cells[0].textContent;
-  // const author = row.cells[1].textContent;
-  // const deleteBtn = document.createElement('button');
-  // deleteBtn.type = 'button';
-  // deleteBtn.textContent = 'Delete';
-  // deleteBtn.dataset.bookId = book.id;
-
-
-  // console.log(row.dataset.bookId);
-  // console.log(row.cells[5].querySelector('button').dataset.bookId);
-  // console.log(row.cells[5].querySelector('button').textContent = 'hi');
-  row.cells[5].querySelector('button').addEventListener("click", (e) => {
-    // console.log(e.target.dataset.bookId); 
-    rows.forEach((row) => {
-      // console.log(row.cells[5].querySelector('button').dataset.bookId);
-      // console.log(e.target.dataset.bookId); 
-      // console.log(e.target.closest('tr'));
-      if (row.cells[5].querySelector('button').dataset.bookId === e.target.dataset.bookId) {
-        e.target.closest('tr').remove();
-      }
+  rows.forEach((row) => {
+    row.cells[5].querySelector('button').addEventListener("click", (e) => {
+      rows.forEach((row) => {
+        if (row.cells[5].querySelector('button').dataset.bookId === e.target.dataset.bookId) {
+          e.target.closest('tr').remove();
+        }
+      });
     });
-
   });
-});
-
 }
 
-// console.log(document.querySelector('tbody > tr > td > button').textContent = 'hi');
+// change read status
+
+Book.prototype.toggleRead = function(trSpanElementText) {
+  // this.finished
+  if (this.finished === 'Read') {
+    this.finished = 'Not Read';
+    trSpanElementText.remove();
+    displayBooks(myLibrary);
+  } else {
+    this.finished = 'Read';
+    trSpanElementText.remove();
+    displayBooks(myLibrary);
+  }
+};
+
+function changeReadStatus() {
+  // console.log(myLibrary)
+  rows.forEach((row) => {
+    row.cells[4].querySelector('button').addEventListener("click", (e) => {
+        // console.log(myLibrary[0].id);
+        // console.log(e.target.closest('tr').dataset.bookId);
+        myLibrary.forEach((_, index) => {
+          if (myLibrary[index].id === e.target.closest('tr').dataset.bookId) {
+            // console.log(myLibrary[index].toggleRead());
+            // console.log(row.cells[4].querySelector('span').textContent);
+            myLibrary[index].toggleRead(row);
+          }
+        });
+      });
+    });
+  };
+
