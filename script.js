@@ -1,5 +1,6 @@
 const myLibrary = [];
 const tbody = document.querySelector('tbody');
+let rows = document.querySelectorAll('tbody > tr');
 
 function Book(title, author, pages, genre, finished, id) {
   if (!new.target) {
@@ -46,7 +47,8 @@ function displayBooks(numberOfBooks) {
       
   }
   tbody.appendChild(tr);
-  // console.log(numberOfBooks);
+  rows = document.querySelectorAll('tbody > tr');
+  deleteRowBtn();
 }
 
 // Modal
@@ -89,11 +91,11 @@ bookForm.addEventListener('submit', function(event) {
     
 });
 
+
 // loop through the table rows data book id
 // compare tr data-book-id with the delete buttons data-book-id
 
-const rows = document.querySelectorAll('tbody > tr');
-
+function deleteRowBtn() {
 rows.forEach((row) => {
   // Access individual cells inside this row
   // const title = row.cells[0].textContent;
@@ -120,5 +122,7 @@ rows.forEach((row) => {
 
   });
 });
+
+}
 
 // console.log(document.querySelector('tbody > tr > td > button').textContent = 'hi');
