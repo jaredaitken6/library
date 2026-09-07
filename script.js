@@ -46,7 +46,7 @@ function displayBooks(numberOfBooks) {
       
   }
   tbody.appendChild(tr);
-  console.log(numberOfBooks);
+  // console.log(numberOfBooks);
 }
 
 // Modal
@@ -81,7 +81,7 @@ bookForm.addEventListener('submit', function(event) {
       hasRead = "Not Read";
     }
 
-    console.log(bookFormTitle.value, bookFormAuthor.value, bookFormPageNumber.value, bookFormGenre.value, hasRead);
+    // console.log(bookFormTitle.value, bookFormAuthor.value, bookFormPageNumber.value, bookFormGenre.value, hasRead);
 
     addBookToLibrary(bookFormTitle.value, bookFormAuthor.value, bookFormPageNumber.value, bookFormGenre.value, hasRead);
 
@@ -89,3 +89,36 @@ bookForm.addEventListener('submit', function(event) {
     
 });
 
+// loop through the table rows data book id
+// compare tr data-book-id with the delete buttons data-book-id
+
+const rows = document.querySelectorAll('tbody > tr');
+
+rows.forEach((row) => {
+  // Access individual cells inside this row
+  // const title = row.cells[0].textContent;
+  // const author = row.cells[1].textContent;
+  // const deleteBtn = document.createElement('button');
+  // deleteBtn.type = 'button';
+  // deleteBtn.textContent = 'Delete';
+  // deleteBtn.dataset.bookId = book.id;
+
+
+  // console.log(row.dataset.bookId);
+  // console.log(row.cells[5].querySelector('button').dataset.bookId);
+  // console.log(row.cells[5].querySelector('button').textContent = 'hi');
+  row.cells[5].querySelector('button').addEventListener("click", (e) => {
+    // console.log(e.target.dataset.bookId); 
+    rows.forEach((row) => {
+      // console.log(row.cells[5].querySelector('button').dataset.bookId);
+      // console.log(e.target.dataset.bookId); 
+      // console.log(e.target.closest('tr'));
+      if (row.cells[5].querySelector('button').dataset.bookId === e.target.dataset.bookId) {
+        e.target.closest('tr').remove();
+      }
+    });
+
+  });
+});
+
+// console.log(document.querySelector('tbody > tr > td > button').textContent = 'hi');
