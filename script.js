@@ -21,8 +21,7 @@ function addBookToLibrary(title, author, pages, genre, finished) {
 }
 
 function displayBooks(numberOfBooks) {
-  let tr;
-  // console.log(myLibrary[0]);  
+  let tr;  
   for (const book of numberOfBooks) {
       tr = document.createElement('tr');
       const tdTitle = document.createElement('td');
@@ -74,7 +73,7 @@ closeBtn.addEventListener("click", () => {
   modal.close(); 
 });
 
-// book form
+// book form inside modal
 const bookForm = document.querySelector('#book-form');
 const bookFormTitle = document.querySelector('#book-title');
 const bookFormAuthor = document.querySelector('#book-author');
@@ -95,6 +94,12 @@ bookForm.addEventListener('submit', function(event) {
     addBookToLibrary(bookFormTitle.value, bookFormAuthor.value, bookFormPageNumber.value, bookFormGenre.value, hasRead);
 
     displayBooks(myLibrary);  
+
+    document.getElementById('book-title').value = ''; 
+    document.getElementById('book-author').value = ''; 
+    document.getElementById('page-number').value = ''; 
+    document.getElementById('book-genre').value = ''; 
+    modal.close(); 
     
 });
 
@@ -114,7 +119,6 @@ function deleteRowBtn() {
 // change read status
 
 Book.prototype.toggleRead = function(trSpanElementText) {
-  // this.finished
   if (this.finished === 'Read') {
     this.finished = 'Not Read';
     trSpanElementText.remove();
@@ -127,14 +131,10 @@ Book.prototype.toggleRead = function(trSpanElementText) {
 };
 
 function changeReadStatus() {
-  // console.log(myLibrary)
   rows.forEach((row) => {
     row.cells[4].querySelector('button').addEventListener("click", (e) => {
-        // console.log(myLibrary[0].id);
-        // console.log(e.target.closest('tr').dataset.bookId);
         myLibrary.forEach((_, index) => {
           if (myLibrary[index].id === e.target.closest('tr').dataset.bookId) {
-            // console.log(myLibrary[index].toggleRead());
             // console.log(row.cells[4].querySelector('span').textContent);
             myLibrary[index].toggleRead(row);
           }

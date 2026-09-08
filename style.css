@@ -1,6 +1,6 @@
 table {
   width: 100%;
-  border-collapse: collapse; /* Merges double borders into a clean single line */
+  border-collapse: collapse; 
 }
 
 th, td {
